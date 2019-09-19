@@ -8,7 +8,7 @@ from xbrl import XBRLParser, GAAP, GAAPSerializer
 
 #----------------DOWNLOAD REQUISITE FILES--------------------------------------
 
-
+company = input("companyticker: ")
 #Step 1: Define funtions to download filings
 def get_list(ticker):
 
@@ -68,11 +68,11 @@ def download_report(url_list,dir_path):
                 pass
 # Step 2: Define funtions to download filings
 # Import tickers
-TickerFile = pd.read_csv("companylist.csv")
-Tickers = TickerFile['Symbol'].tolist()
+#TickerFile = pd.read_csv("companylist.csv")
+#Tickers = TickerFile['Symbol'].tolist()
+#Step two has been replaced by the input()function at the top of the code
 
 
-company = input("companyticker: ")
 for ticker in company:
     url_list= get_list(ticker)
     base_path = "./Downloaded_Filings"
