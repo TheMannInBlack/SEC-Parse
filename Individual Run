@@ -1,0 +1,21 @@
+import pandas as pd
+from bs4 import BeautifulSoup
+from requests import get
+import urllib.request
+from xbrl import XBRLParser, GAAP, GAAPSerializer
+
+f= 'C:/Users/Busin/Desktop/Python/Investment Analysis/Downloaded_Filings/TSLA/tsla-20111231.xml'
+xml = open(f,'r').read()
+soup = BeautifulSoup(xml, 'lxml')
+tags = soup.find_all()
+df = pd.DataFrame(columns=['field','period','value']) 
+
+for tag in tags:
+    if ('us-gaap:' in tag.name   # only want gaap-related tags 
+            and tag.text.isdigit()): # only want values, no commentary
+        #a = re.match("^C_"+ re.escape(cik) + "_[0-9]", tag['contextref'])     
+            name = tag.name.split('gaap:')[1]
+            cref = tag['contextref'][-8:-4]
+            value = tag.text
+            df = df.append({'field': name, 'period': cref, 'value': value}, ignore_index=True)
+    df.to_excel("2011attempt.xlsx")
